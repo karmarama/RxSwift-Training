@@ -1,3 +1,5 @@
+import RxCocoa
+import RxSwift
 import UIKit
 
 protocol LoginView: AnyObject {
@@ -19,54 +21,51 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var errorLabel: UILabel!
     
-    let presenter: LoginPresenterProtocol
+    private let bag = DisposeBag()
+    
+    var viewModel: LoginViewModelType!
 
-   init(presenter: LoginPresenterProtocol) {
-       self.presenter = presenter
-       super.init(nibName: String(describing: LoginViewController.self), bundle: Bundle(for: LoginViewController.self))
-   }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.attachView(self)
-        presenter.viewDidLoad()
+        bind(viewModel.outputs)
+        bind(viewModel.inputs)
         usernameTextField.delegate = self
         passwordTextField.delegate = self
     }
     
+    init() {
+        super.init(nibName: String(describing: LoginViewController.self), bundle: Bundle(for: LoginViewController.self))
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func bind(_ outputs: LoginViewModelOutputsType) {
+        outputs
+            .image
+            .map(UIImage.init(named:))
+            .bind(to: image.rx.image)
+            .disposed(by: bag)
+        outputs
+            .usernameTitle
+            .bind(to: usernameTitle.rx.text)
+            .disposed(by: bag)
+    }
+    
+    private func bind(_ inputs: LoginViewModelInputsType) {
+        loginButton.rx.tap
+            .bind(to: inputs.loginRelay)
+            .disposed(by: bag)
+    }
+    
     @IBAction func usernameEditingChanged(_ sender: Any) {
-        presenter.set(username: usernameTextField.text ?? "")
+        
     }
     @IBAction func passrwordEditingChanged(_ sender: Any) {
-        presenter.set(password: passwordTextField.text ?? "")
+        
     }
     @IBAction func loginTouchUpInside(_ sender: Any) {
-        presenter.loginAction()
-    }
-}
-
-extension LoginViewController: LoginView {
-    func set(image: String) {
-        self.image.image = UIImage(named: image)
-    }
-    func set(username: String) {
-        usernameTitle.text = username
-    }
-    func set(password: String) {
-        passwordTitle.text = password
-    }
-    func set(buttonTitle: String) {
-        loginButton.setTitle(buttonTitle, for: .normal)
-    }
-    func set(errorLabel: String) {
-        self.errorLabel.text = errorLabel
-    }
-    func set(errorIsHidden: Bool) {
-        errorLabel.isHidden = errorIsHidden
+        
     }
 }
 

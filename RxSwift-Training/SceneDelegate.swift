@@ -16,9 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else { return }
         self.navigationController = navigationController
 
-        let presenter = LoginPresenter(repository: repository)
+        let viewModel = LoginViewModel(repository: repository)
 
-        let viewController = LoginViewController(presenter: presenter)
+        let viewController = LoginViewController()
+        viewController.viewModel = viewModel
         navigationController.setViewControllers([viewController], animated: false)
     }
 
