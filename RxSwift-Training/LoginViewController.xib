@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19115.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="MVP_ToRefactor" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="RxSwift_Training" customModuleProvider="target">
             <connections>
                 <outlet property="errorLabel" destination="ba4-bF-cyJ" id="Rvp-Fi-FdK"/>
-                <outlet property="image" destination="YTI-R3-F6K" id="er3-Xj-Fqt"/>
+                <outlet property="imageView" destination="YTI-R3-F6K" id="W2p-6I-kkw"/>
                 <outlet property="loginButton" destination="n4o-aS-Qtj" id="pJf-zC-Vvl"/>
                 <outlet property="passwordTextField" destination="5zV-wh-c24" id="i3h-rn-E9X"/>
                 <outlet property="passwordTitle" destination="Cv7-vn-LHo" id="aJO-Pf-QSO"/>
@@ -85,10 +85,10 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="YTL-xW-k74">
-                            <rect key="frame" x="24" y="413.5" width="366" height="79"/>
+                            <rect key="frame" x="24" y="413.5" width="366" height="75.5"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n4o-aS-Qtj">
-                                    <rect key="frame" x="0.0" y="0.0" width="366" height="34.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="366" height="31"/>
                                     <color key="backgroundColor" name="AccentColor"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
@@ -98,7 +98,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba4-bF-cyJ">
-                                    <rect key="frame" x="0.0" y="58.5" width="366" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="55" width="366" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>

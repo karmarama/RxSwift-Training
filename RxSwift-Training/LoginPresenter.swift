@@ -1,65 +1,113 @@
 import Foundation
+import RxSwift
 
-protocol LoginPresenterProtocol {
-    func viewDidLoad()
-    func attachView(_ view: LoginView)
-    func set(username: String)
-    func set(password: String)
-    func loginAction()
+protocol LoginPresenterDelegate: AnyObject {
+    func loginSuccess()
 }
 
-final class LoginPresenter {
-    private weak var view: LoginView?
-    private var username: String = ""
-    private var password: String = ""
+protocol LoginPresenterProtocol {
+    // inputs:
+    func loginAction()
+    func usernameTextUpdated(text: String)
+    func passwordTextUpdated(text: String)
+
+    // outputs:
+    var imageName: PublishSubject<String> { get }
+    var usernameTitle: PublishSubject<String> { get }
+    var usernameValue: PublishSubject<String> { get }
+    var passwordTitle: PublishSubject<String> { get }
+    var passwordValue: PublishSubject<String> { get }
+    var buttonTitle: PublishSubject<String> { get }
+    var errorTitle: PublishSubject<String> { get }
+    var isErrorHidden: PublishSubject<Bool> { get }
+
+    // delegate
+    var delegate: LoginPresenterDelegate? { get set }
+}
+
+final class LoginPresenter: LoginPresenterProtocol {
+    let imageName: PublishSubject<String>
+    let usernameTitle: PublishSubject<String>
+    let usernameValue: PublishSubject<String>
+    let passwordTitle: PublishSubject<String>
+    let passwordValue: PublishSubject<String>
+    let buttonTitle: PublishSubject<String>
+    let errorTitle: PublishSubject<String>
+    let isErrorHidden: PublishSubject<Bool>
+
+    weak var delegate: LoginPresenterDelegate?
+
+    private let loginActionRelay = PublishSubject<Void>()
+    private let username = PublishSubject<String>()
+    private let password = PublishSubject<String>()
+    private let bag = DisposeBag()
 
     private let repository: RepositoryType
     
     init(repository: RepositoryType) {
         self.repository = repository
-    }
-}
 
-extension LoginPresenter: LoginPresenterProtocol {
+        // Won't change:
+        imageName = PublishSubject<String>()
+        imageName.onNext("login")
+        usernameTitle = PublishSubject<String>()
+        usernameTitle.onNext("Introduce your username")
+        passwordTitle = PublishSubject<String>()
+        passwordTitle.onNext("Introduce your password")
+        buttonTitle = PublishSubject<String>()
+        buttonTitle.onNext("Sign in")
 
-    func attachView(_ view: LoginView) {
-        self.view = view
-    }
-    func viewDidLoad() {
-        view?.set(image: "login")
-        view?.set(username: "Introduce your username")
-        view?.set(password: "Introduce your password")
-        view?.set(buttonTitle: "Sign in")
-        view?.set(errorIsHidden: true)
-    }
-    func set(username: String) {
-        self.username = username
-    }
-    func set(password: String) {
-        self.password = password
-    }
-    func loginAction() {
-        print(username)
-        print(password)
-        // validate inputs
-        if username.isEmpty || password.isEmpty {
-            view?.set(errorLabel: "Check your credentials")
-            view?.set(errorIsHidden: false)
-        } else {
-            // loading
-            view?.set(errorIsHidden: true)
-            
-            repository.login(username: username, password: password) { result in
-                // stop loading
-                switch result {
-                case .success:
-                    // push
-                    break
-                case .failure:
-                    view?.set(errorLabel: "Can't not login")
-                    view?.set(errorIsHidden: false)
+        // Will change, with default value:
+        isErrorHidden = PublishSubject<Bool>()
+        isErrorHidden.onNext(true)
+
+        // Will change, no value
+        usernameValue = PublishSubject<String>()
+        passwordValue = PublishSubject<String>()
+        errorTitle = PublishSubject<String>()
+
+        loginActionRelay
+            .withLatestFrom(Observable.combineLatest(username, password))
+            .subscribe { event in
+                guard case let .next(latest) = event else { return }
+                let (username, password) = latest
+
+                print(username)
+                print(password)
+
+                // validate inputs
+                if username.isEmpty || password.isEmpty {
+                    self.errorTitle.onNext("Check your credentials")
+                    self.isErrorHidden.onNext(false)
+                } else {
+                    // loading
+                    self.isErrorHidden.onNext(true)
+
+                    repository.login(username: username, password: password) { result in
+                        // stop loading
+                        switch result {
+                        case .success:
+                            self.delegate?.loginSuccess()
+                            break
+                        case .failure:
+                            self.errorTitle.onNext("Can't not login")
+                            self.isErrorHidden.onNext(false)
+                        }
+                    }
                 }
             }
-        }
+            .disposed(by: bag)
+    }
+
+    func usernameTextUpdated(text: String) {
+        username.onNext(text)
+    }
+
+    func passwordTextUpdated(text: String) {
+        password.onNext(text)
+    }
+
+    func loginAction() {
+        loginActionRelay.onNext(())
     }
 }

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE88039C270F45BE00880EAA /* RxBlocking.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE880397270F45BE00880EAA /* RxBlocking.xcframework */; };
+		BE88039D270F45BE00880EAA /* RxCocoaRuntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE880398270F45BE00880EAA /* RxCocoaRuntime.xcframework */; };
+		BE88039E270F45BE00880EAA /* RxSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE880399270F45BE00880EAA /* RxSwift.xcframework */; };
+		BE88039F270F45BE00880EAA /* RxCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE88039A270F45BE00880EAA /* RxCocoa.xcframework */; };
+		BE8803A0270F45BE00880EAA /* RxRelay.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE88039B270F45BE00880EAA /* RxRelay.xcframework */; };
 		D9F140A7270F367E007423E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F140A6270F367E007423E5 /* AppDelegate.swift */; };
 		D9F140A9270F367E007423E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F140A8270F367E007423E5 /* SceneDelegate.swift */; };
 		D9F140AE270F367E007423E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9F140AC270F367E007423E5 /* Main.storyboard */; };
@@ -39,6 +44,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE880397270F45BE00880EAA /* RxBlocking.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RxBlocking.xcframework; sourceTree = "<group>"; };
+		BE880398270F45BE00880EAA /* RxCocoaRuntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RxCocoaRuntime.xcframework; sourceTree = "<group>"; };
+		BE880399270F45BE00880EAA /* RxSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RxSwift.xcframework; sourceTree = "<group>"; };
+		BE88039A270F45BE00880EAA /* RxCocoa.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RxCocoa.xcframework; sourceTree = "<group>"; };
+		BE88039B270F45BE00880EAA /* RxRelay.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RxRelay.xcframework; sourceTree = "<group>"; };
 		D9F140A3270F367E007423E5 /* RxSwift-Training.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RxSwift-Training.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F140A6270F367E007423E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9F140A8270F367E007423E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +72,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE88039E270F45BE00880EAA /* RxSwift.xcframework in Frameworks */,
+				BE88039F270F45BE00880EAA /* RxCocoa.xcframework in Frameworks */,
+				BE88039D270F45BE00880EAA /* RxCocoaRuntime.xcframework in Frameworks */,
+				BE8803A0270F45BE00880EAA /* RxRelay.xcframework in Frameworks */,
+				BE88039C270F45BE00880EAA /* RxBlocking.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +97,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE880396270F45BE00880EAA /* RxFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE880397270F45BE00880EAA /* RxBlocking.xcframework */,
+				BE880398270F45BE00880EAA /* RxCocoaRuntime.xcframework */,
+				BE880399270F45BE00880EAA /* RxSwift.xcframework */,
+				BE88039A270F45BE00880EAA /* RxCocoa.xcframework */,
+				BE88039B270F45BE00880EAA /* RxRelay.xcframework */,
+			);
+			path = RxFrameworks;
+			sourceTree = SOURCE_ROOT;
+		};
 		D9F1409A270F367E007423E5 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +142,7 @@
 				D9F140AF270F3685007423E5 /* Assets.xcassets */,
 				D9F140B1270F3685007423E5 /* LaunchScreen.storyboard */,
 				D9F140B4270F3685007423E5 /* Info.plist */,
+				BE880396270F45BE00880EAA /* RxFrameworks */,
 			);
 			path = "RxSwift-Training";
 			sourceTree = "<group>";
