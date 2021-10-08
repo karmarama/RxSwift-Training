@@ -12,34 +12,34 @@ protocol LoginPresenterProtocol {
     func passwordTextUpdated(text: String)
 
     // outputs:
-    var imageName: PublishSubject<String> { get }
-    var usernameTitle: PublishSubject<String> { get }
-    var usernameValue: PublishSubject<String> { get }
-    var passwordTitle: PublishSubject<String> { get }
-    var passwordValue: PublishSubject<String> { get }
-    var buttonTitle: PublishSubject<String> { get }
-    var errorTitle: PublishSubject<String> { get }
-    var isErrorHidden: PublishSubject<Bool> { get }
+    var imageName: ReplaySubject<String> { get }
+    var usernameTitle: ReplaySubject<String> { get }
+    var usernameValue: ReplaySubject<String> { get }
+    var passwordTitle: ReplaySubject<String> { get }
+    var passwordValue: ReplaySubject<String> { get }
+    var buttonTitle: ReplaySubject<String> { get }
+    var errorTitle: ReplaySubject<String> { get }
+    var isErrorHidden: ReplaySubject<Bool> { get }
 
     // delegate
     var delegate: LoginPresenterDelegate? { get set }
 }
 
 final class LoginPresenter: LoginPresenterProtocol {
-    let imageName: PublishSubject<String>
-    let usernameTitle: PublishSubject<String>
-    let usernameValue: PublishSubject<String>
-    let passwordTitle: PublishSubject<String>
-    let passwordValue: PublishSubject<String>
-    let buttonTitle: PublishSubject<String>
-    let errorTitle: PublishSubject<String>
-    let isErrorHidden: PublishSubject<Bool>
+    let imageName: ReplaySubject<String>
+    let usernameTitle: ReplaySubject<String>
+    let usernameValue: ReplaySubject<String>
+    let passwordTitle: ReplaySubject<String>
+    let passwordValue: ReplaySubject<String>
+    let buttonTitle: ReplaySubject<String>
+    let errorTitle: ReplaySubject<String>
+    let isErrorHidden: ReplaySubject<Bool>
 
     weak var delegate: LoginPresenterDelegate?
 
-    private let loginActionRelay = PublishSubject<Void>()
-    private let username = PublishSubject<String>()
-    private let password = PublishSubject<String>()
+    private let loginButtonAction = ReplaySubject<Void>.createUnbounded()
+    private let username = ReplaySubject<String>.createUnbounded()
+    private let password = ReplaySubject<String>.createUnbounded()
     private let bag = DisposeBag()
 
     private let repository: RepositoryType
@@ -48,25 +48,25 @@ final class LoginPresenter: LoginPresenterProtocol {
         self.repository = repository
 
         // Won't change:
-        imageName = PublishSubject<String>()
+        imageName = ReplaySubject<String>.createUnbounded()
         imageName.onNext("login")
-        usernameTitle = PublishSubject<String>()
+        usernameTitle = ReplaySubject<String>.createUnbounded()
         usernameTitle.onNext("Introduce your username")
-        passwordTitle = PublishSubject<String>()
+        passwordTitle = ReplaySubject<String>.createUnbounded()
         passwordTitle.onNext("Introduce your password")
-        buttonTitle = PublishSubject<String>()
+        buttonTitle = ReplaySubject<String>.createUnbounded()
         buttonTitle.onNext("Sign in")
 
         // Will change, with default value:
-        isErrorHidden = PublishSubject<Bool>()
+        isErrorHidden = ReplaySubject<Bool>.createUnbounded()
         isErrorHidden.onNext(true)
 
         // Will change, no value
-        usernameValue = PublishSubject<String>()
-        passwordValue = PublishSubject<String>()
-        errorTitle = PublishSubject<String>()
+        usernameValue = ReplaySubject<String>.createUnbounded()
+        passwordValue = ReplaySubject<String>.createUnbounded()
+        errorTitle = ReplaySubject<String>.createUnbounded()
 
-        loginActionRelay
+        loginButtonAction
             .withLatestFrom(Observable.combineLatest(username, password))
             .subscribe { event in
                 guard case let .next(latest) = event else { return }
@@ -108,6 +108,6 @@ final class LoginPresenter: LoginPresenterProtocol {
     }
 
     func loginAction() {
-        loginActionRelay.onNext(())
+        loginButtonAction.onNext(())
     }
 }
